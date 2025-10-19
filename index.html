@@ -6,6 +6,29 @@
     <title>Dành Tặng Em - Cục Dàng Của Nam ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS cho lớp phủ */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #FFC0CB, #FCE4EC); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #E91E63;
+            font-size: 2em;
+            text-align: center;
+            z-index: 9999; /* Luôn nằm trên cùng */
+            transition: opacity 0.5s ease-out;
+            cursor: pointer;
+        }
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Vô hiệu hóa tương tác sau khi ẩn */
+        }
+        
         body {
             margin: 0;
             overflow-x: hidden;
@@ -36,6 +59,8 @@
             flex-direction: column;
             align-items: center;
             color: #4A148C;
+            opacity: 0; /* Mặc định ẩn container */
+            transition: opacity 1s ease-in-out;
         }
 
         h1 {
@@ -89,9 +114,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* FIX: Xóa toàn bộ CSS trái tim rơi */
-
-        /* FIX: Áp dụng class music-player cho thẻ audio để nó ẩn đi và tự phát */
         .music-player {
             position: fixed; bottom: 10px; right: 10px; z-index: 20; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; 
         }
@@ -107,12 +129,16 @@
 </head>
 <body>
     
-    <audio class="music-player" autoplay loop>
+    <div class="overlay" id="overlay">
+        <p>Bấm vào màn hình để mở quà tặng! ❤️</p>
+    </div>
+
+    <audio class="music-player" id="musicPlayer" loop>
         <source src="music.mp3" type="audio/mpeg">
         Trình duyệt của bạn không hỗ trợ phát file audio này.
     </audio>
 
-    <div class="container">
+    <div class="container" id="mainContainer">
         <h1>Cho em nè - Cục dàng của Nam ❤️</h1>
         <div class="message">
             <p>Chúc Bé Yêu Của Nam 20/10 Duii Dẻee!</p>
@@ -128,21 +154,59 @@
     </div>
 
     <script>
-        // FIX: Đã xóa toàn bộ code liên quan đến hiệu ứng trái tim rơi để chống lag
+        // HÀM CHÍNH: Phát nhạc và hiện nội dung
+        function initializeContent() {
+            var overlay = document.getElementById('overlay');
+            var mainContainer = document.getElementById('mainContainer');
+            
+            // Ẩn overlay
+            overlay.classList.add('hidden');
+            
+            // Hiện nội dung chính
+            mainContainer.style.opacity = '1';
 
-        const images = document.querySelectorAll('.image-item');
-        let currentIndex = 0;
-        function showNextImage() {
-            if (images[currentIndex]) { images[currentIndex].classList.remove('active'); }
-            currentIndex = (currentIndex + 1) % images.length;
-            if (images[currentIndex]) { images[currentIndex].classList.add('active'); }
-        }
-        setTimeout(() => {
-            if (images.length > 0) {
-                images[0].classList.add('active');
-                setInterval(showNextImage, 5000);
+            // Bắt đầu show ảnh
+            const images = document.querySelectorAll('.image-item');
+            let currentIndex = 0;
+            function showNextImage() {
+                if (images[currentIndex]) { images[currentIndex].classList.remove('active'); }
+                currentIndex = (currentIndex + 1) % images.length;
+                if (images[currentIndex]) { images[currentIndex].classList.add('active'); }
             }
-        }, 500); 
+            setTimeout(() => {
+                if (images.length > 0) {
+                    images[0].classList.add('active');
+                    setInterval(showNextImage, 5000);
+                }
+            }, 500); 
+        }
+        
+        // LOGIC PHÁT NHẠC
+        document.addEventListener('DOMContentLoaded', function() {
+            var player = document.getElementById('musicPlayer');
+            var overlay = document.getElementById('overlay');
+            
+            // 1. Thử phát nhạc ngay lập tức (Chỉ thành công trên PC/desktop)
+            player.play().then(function() {
+                // Thành công (PC) -> Khởi tạo nội dung ngay, không cần click
+                initializeContent();
+            }).catch(function(error) {
+                // Thất bại (Mobile/đã bị chặn) -> Hiển thị overlay để chờ click
+                overlay.style.display = 'flex'; // Đảm bảo overlay hiện
+                
+                // Gắn sự kiện click vào overlay
+                overlay.addEventListener('click', function() {
+                    player.play().then(function() {
+                        initializeContent();
+                    }).catch(function(innerError) {
+                        // Vẫn lỗi (Rất hiếm) -> Vẫn hiện nội dung chính
+                        initializeContent();
+                    });
+                }, { once: true }); // Chỉ chạy 1 lần
+            });
+            
+        });
+        
     </script>
 </body>
 </html>
