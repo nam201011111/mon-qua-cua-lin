@@ -9,24 +9,23 @@
         body {
             margin: 0;
             overflow-x: hidden;
-            /* Giữ nguyên nền hồng lãng mạn */
             background: linear-gradient(to bottom, #FFC0CB, #FCE4EC); 
             font-family: 'Dancing Script', cursive;
             color: #fff;
             text-align: center;
-            padding: 0; /* Đưa padding về 0 */
+            padding: 0; 
             position: relative;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* FIX: Bắt đầu từ trên xuống */
+            justify-content: flex-start; 
             align-items: center;
         }
 
         .container {
             width: 90%;
             max-width: 600px;
-            margin: 30px auto; /* Tăng margin trên dưới để nội dung không bị dính */
+            margin: 30px auto; 
             background: rgba(255, 255, 255, 0.7); 
             padding: 20px;
             border-radius: 15px;
@@ -36,7 +35,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Đã xóa min-height để container vừa với nội dung */
             color: #4A148C;
         }
 
@@ -85,37 +83,15 @@
 
         .signature {
             font-size: 1.8em;
-            margin-top: 20px; /* Đã thay đổi từ 'auto' sang giá trị cố định */
+            margin-top: 20px; 
             padding-top: 20px;
             color: #AD1457;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* FIX: Xóa toàn bộ CSS của trái tim đập lớn */
-        
-        /* Hiệu ứng trái tim rơi (Giữ lại nếu Sếp muốn, nhưng code này không gây ra lỗi khoảng trống) */
-        .heart {
-            position: absolute;
-            background-color: #F06292;
-            transform: rotate(-45deg);
-            animation: fall linear infinite;
-            z-index: 1;
-        }
-        .heart:before, .heart:after {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: #F06292;
-            border-radius: 50%;
-        }
-        @keyframes fall {
-            0% { transform: translate(0, -100px) rotate(-45deg); opacity: 0; }
-            5% { opacity: 1; }
-            95% { opacity: 1; }
-            100% { transform: translate(0, 100vh) rotate(-45deg); opacity: 0; }
-        }
+        /* FIX: Xóa toàn bộ CSS trái tim rơi */
 
+        /* FIX: Áp dụng class music-player cho thẻ audio để nó ẩn đi và tự phát */
         .music-player {
             position: fixed; bottom: 10px; right: 10px; z-index: 20; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; 
         }
@@ -131,13 +107,10 @@
 </head>
 <body>
     
-    <div class="music-player">
-        <iframe width="100%" height="100%" 
-            src="https://www.youtube.com/embed/FBoVBfa5Q6c?autoplay=1&loop=1&playlist=FBoVBfa5Q6c&controls=0&mute=0" 
-            title="YouTube video player" frameborder="0" 
-            allow="autoplay; encrypted-media" allowfullscreen>
-        </iframe>
-    </div>
+    <audio class="music-player" autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ phát file audio này.
+    </audio>
 
     <div class="container">
         <h1>Cho em nè - Cục dàng của Nam ❤️</h1>
@@ -155,22 +128,7 @@
     </div>
 
     <script>
-        // FIX: Đã xóa setInterval(createHeart, 300); nếu Sếp muốn xóa luôn hiệu ứng trái tim rơi. 
-        // Nếu muốn giữ hiệu ứng trái tim rơi, Sếp để lại dòng code bên dưới:
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            document.body.appendChild(heart);
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; 
-            heart.style.opacity = Math.random();
-            heart.style.width = Math.random() * 10 + 5 + 'px'; 
-            heart.style.height = heart.style.width;
-            setTimeout(() => { heart.remove(); }, 5000); 
-        }
-        setInterval(createHeart, 300); 
-        // Nếu muốn XÓA LUÔN trái tim rơi, Sếp xóa 2 dòng code trên đi nhé!
-        
+        // FIX: Đã xóa toàn bộ code liên quan đến hiệu ứng trái tim rơi để chống lag
 
         const images = document.querySelectorAll('.image-item');
         let currentIndex = 0;
