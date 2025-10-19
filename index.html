@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dành Tặng Em - Cục Dàng Của Nam ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            /* Giữ nguyên nền hồng lãng mạn */
+            background: linear-gradient(to bottom, #FFC0CB, #FCE4EC); 
+            font-family: 'Dancing Script', cursive;
+            color: #fff;
+            text-align: center;
+            padding: 0; /* Đưa padding về 0 */
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* FIX: Bắt đầu từ trên xuống */
+            align-items: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 30px auto; /* Tăng margin trên dưới để nội dung không bị dính */
+            background: rgba(255, 255, 255, 0.7); 
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Đã xóa min-height để container vừa với nội dung */
+            color: #4A148C;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #E91E63;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message {
+            font-size: 1.5em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            color: #880E4F;
+            width: 100%;
+        }
+        .message p {
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .image-gallery {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .image-gallery img {
+            position: absolute;
+            max-width: 250px;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .image-gallery img.active {
+            opacity: 1;
+        }
+
+        .signature {
+            font-size: 1.8em;
+            margin-top: 20px; /* Đã thay đổi từ 'auto' sang giá trị cố định */
+            padding-top: 20px;
+            color: #AD1457;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* FIX: Xóa toàn bộ CSS của trái tim đập lớn */
+        
+        /* Hiệu ứng trái tim rơi (Giữ lại nếu Sếp muốn, nhưng code này không gây ra lỗi khoảng trống) */
+        .heart {
+            position: absolute;
+            background-color: #F06292;
+            transform: rotate(-45deg);
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #F06292;
+            border-radius: 50%;
+        }
+        @keyframes fall {
+            0% { transform: translate(0, -100px) rotate(-45deg); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { transform: translate(0, 100vh) rotate(-45deg); opacity: 0; }
+        }
+
+        .music-player {
+            position: fixed; bottom: 10px; right: 10px; z-index: 20; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; 
+        }
+
+        @media (min-width: 768px) {
+            .container { padding: 30px; }
+            h1 { font-size: 3.5em; }
+            .message { font-size: 1.6em; }
+            .image-gallery img { max-width: 300px; max-height: 250px; }
+            .signature { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="music-player">
+        <iframe width="100%" height="100%" 
+            src="https://www.youtube.com/embed/FBoVBfa5Q6c?autoplay=1&loop=1&playlist=FBoVBfa5Q6c&controls=0&mute=0" 
+            title="YouTube video player" frameborder="0" 
+            allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="container">
+        <h1>Cho em nè - Cục dàng của Nam ❤️</h1>
+        <div class="message">
+            <p>Chúc Bé Yêu Của Nam 20/10 Duii Dẻee!</p>
+        </div>
+
+        <div class="image-gallery">
+            <img class="image-item" src="https://i.postimg.cc/CdTjc2dk/image.png" alt="Kỷ niệm 1">
+            <img class="image-item" src="https://i.postimg.cc/HswSf0mR/image.png" alt="Kỷ niệm 2">
+            <img class="image-item" src="https://i.postimg.cc/L8vxsHnw/image.png" alt="Kỷ niệm 3">
+        </div>
+        
+        <p class="signature">Mãi yêu em,<br> Bé Nam</p>
+    </div>
+
+    <script>
+        // FIX: Đã xóa setInterval(createHeart, 300); nếu Sếp muốn xóa luôn hiệu ứng trái tim rơi. 
+        // Nếu muốn giữ hiệu ứng trái tim rơi, Sếp để lại dòng code bên dưới:
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            document.body.appendChild(heart);
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; 
+            heart.style.opacity = Math.random();
+            heart.style.width = Math.random() * 10 + 5 + 'px'; 
+            heart.style.height = heart.style.width;
+            setTimeout(() => { heart.remove(); }, 5000); 
+        }
+        setInterval(createHeart, 300); 
+        // Nếu muốn XÓA LUÔN trái tim rơi, Sếp xóa 2 dòng code trên đi nhé!
+        
+
+        const images = document.querySelectorAll('.image-item');
+        let currentIndex = 0;
+        function showNextImage() {
+            if (images[currentIndex]) { images[currentIndex].classList.remove('active'); }
+            currentIndex = (currentIndex + 1) % images.length;
+            if (images[currentIndex]) { images[currentIndex].classList.add('active'); }
+        }
+        setTimeout(() => {
+            if (images.length > 0) {
+                images[0].classList.add('active');
+                setInterval(showNextImage, 5000);
+            }
+        }, 500); 
+    </script>
+</body>
+</html>
